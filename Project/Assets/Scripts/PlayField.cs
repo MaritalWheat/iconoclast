@@ -69,6 +69,15 @@ public class PlayField : MonoBehaviour {
 		} else {
 			return Vector2.zero;
 		}
-	}	
+	}
+
+	public static Tile GetTile(Vector2 coords) 
+	{
+		if (m_instance.m_playField.ContainsKey(coords)) {
+			return m_instance.m_playField[coords].GetComponent<Tile>();
+		} else {
+			return null;
+		}
+	}
 }
 

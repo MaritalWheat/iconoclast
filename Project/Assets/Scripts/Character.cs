@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Character : Moveable {
 
@@ -26,6 +27,7 @@ public class Character : Moveable {
 				SetPosition(moveTo.Coords);
 			}
 		}
+		HighlightAdjacentTiles();
 	}
 
 	void OnGUI() {
@@ -35,6 +37,25 @@ public class Character : Moveable {
 			m_move = GUI.Toggle(new Rect(0, 0, 200, 50), m_move,  "Move");
 			m_two = GUI.Toggle(new Rect(0, 75, 200, 50), m_two, "");
 			GUILayout.EndArea();
+		}
+	}
+
+	void HighlightAdjacentTiles() 
+	{
+		if (!m_move) return;
+		List<Tile> neighbors = new List<Tile>();
+		neighbors.Add(PlayField.GetTile(new Vector2(Coords.x - 1, Coords.y)));
+		neighbors.Add(PlayField.GetTile(new Vector2(Coords.x + 1, Coords.y)));
+		neighbors.Add(PlayField.GetTile(new Vector2(Coords.x, Coords.y - 1)));
+		neighbors.Add(PlayField.GetTile(new Vector2(Coords.x, Coords.y + 1)));
+		neighbors.Add(PlayField.GetTile(new Vector2(Coords.x - 1, Coords.y - 1)));
+		neighbors.Add(PlayField.GetTile(new Vector2(Coords.x - 1, Coords.y + 1)));
+		neighbors.Add(PlayField.GetTile(new Vector2(Coords.x + 1, Coords.y - 1)));
+		neighbors.Add(PlayField.GetTile(new Vector2(Coords.x + 1, Coords.y + 1)));
+		for (int i = 0; i < neighbors.Count; i++) {
+			if (neighbors[i] != null) {
+				neighbors[i].gameObject.renderer.material.SetColor("_Color", Color.red);
+			}
 		}
 	}
 }
