@@ -37,7 +37,7 @@ public class Character : Moveable {
 	{
 		for (int i = 0; i < neighbors.Count; i++) {
 			if (neighbors[i] != null) {
-				neighbors[i].gameObject.renderer.material.SetColor("_Color", Color.white);
+				PlayField.HighlightObjects[i].SetActive(false);
 			}
 		}
 
@@ -74,7 +74,8 @@ public class Character : Moveable {
 		neighbors.Add(PlayField.GetTile(new Vector2(Coords.x + 1, Coords.y + 1)));
 		for (int i = 0; i < neighbors.Count; i++) {
 			if (neighbors[i] != null) {
-				neighbors[i].gameObject.renderer.material.SetColor("_Color", Color.yellow);
+				PlayField.HighlightObjects[i].SetActive(true);
+				PlayField.HighlightObjects[i].GetComponent<HighlightedTile>().SetPosition(neighbors[i].Coords);
 			}
 		}
 	}
@@ -103,6 +104,4 @@ public class Character : Moveable {
 		if (m_actionsPoints == 0) Depleted = true;
 		return true;
 	}
-
-
 }

@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour {
 
 	//Temp
 	public List<GameObject> enemies; 
+	//End Temp
 
 	Squad m_squadA, m_squadB;
 	int m_totalTurns = 0;
