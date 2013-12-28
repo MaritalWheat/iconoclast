@@ -93,6 +93,7 @@ public class Character : Moveable {
 	public void ResetActionPoints() 
 	{
 		m_actionsPoints = MAX_APS;
+		Depleted = false;
 	}
 
 	public bool UseActionPoints(int points)

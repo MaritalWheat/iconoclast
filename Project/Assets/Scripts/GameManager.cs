@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour {
 			m_instance = this;
 		}
 		m_squadA = this.gameObject.AddComponent<Squad> ();
-		m_squadA.StartTurn ();
+		m_squadA.Initialize ();
 	}
 
 	void Update () {
