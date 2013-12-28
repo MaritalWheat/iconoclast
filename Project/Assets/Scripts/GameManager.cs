@@ -1,11 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour {
 
 	public static GameManager m_instance;
 
 	public GameObject m_characterPrefab;
+	public GameObject m_enemyPrefab;
+
+	//Temp
+	public List<GameObject> enemies; 
 
 	Squad m_squadA, m_squadB;
 	int m_totalTurns = 0;
@@ -16,6 +21,11 @@ public class GameManager : MonoBehaviour {
 		}
 		m_squadA = this.gameObject.AddComponent<Squad> ();
 		m_squadA.Initialize ();
+
+		//For now we will create mock enemies, later this will be replaced with network manager code to display actual enemies
+		enemies.Add((GameObject)GameObject.Instantiate(m_enemyPrefab));
+
+		enemies[0].GetComponent<Enemy>().SetPosition(new Vector2(9,3));
 	}
 
 	void Update () {
