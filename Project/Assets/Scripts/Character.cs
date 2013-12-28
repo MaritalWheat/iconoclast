@@ -90,6 +90,11 @@ public class Character : Moveable {
 		}
 	}
 
+	public void ResetActionPoints() 
+	{
+		m_actionsPoints = MAX_APS;
+	}
+
 	public bool UseActionPoints(int points)
 	{
 		if (m_actionsPoints - points < 0) return false; //points not available;
