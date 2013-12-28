@@ -9,6 +9,8 @@ public class Character : Moveable {
 
 	private bool m_move = false;
 	private bool m_two = false;
+	private int m_actionsPoints;
+	private const int MAX_APS = 2;
 
 	public bool InPlay {
 		get;
@@ -20,9 +22,15 @@ public class Character : Moveable {
 		get;
 	}
 
+	public bool Depleted {
+		set;
+		get;
+	}
+
 	void Start() 
 	{
 		neighbors = new List<Tile>();
+		m_actionsPoints = MAX_APS;
 	}
 
 	void Update() 
@@ -33,13 +41,11 @@ public class Character : Moveable {
 			}
 		}
 
-		if (m_move) {
-			Tile moveTo = InputManager.GetTileClicked();
-			if (moveTo != null) {
-				SetPosition(moveTo.Coords);
-			}
-		}
 		HighlightAdjacentTiles();
+
+		if (m_move) {
+			Move ();
+		}
 	}
 
 	void OnGUI() {
@@ -47,7 +53,7 @@ public class Character : Moveable {
 			GUI.Box(new Rect(0, 0, 200, 200), "");
 			GUILayout.BeginArea(new Rect(0, 0, 200, 200));
 			m_move = GUI.Toggle(new Rect(0, 0, 200, 50), m_move,  "Move");
-			m_two = GUI.Toggle(new Rect(0, 75, 200, 50), m_two, "");
+			GUI.Box(new Rect(0, 75, 200, 50), "Actions Points: " + m_actionsPoints);
 			GUILayout.EndArea();
 		}
 	}
@@ -55,6 +61,7 @@ public class Character : Moveable {
 	void HighlightAdjacentTiles() 
 	{
 		if (!m_move) return;
+		if (Depleted) return;
 
 		neighbors = new List<Tile>();
 		neighbors.Add(PlayField.GetTile(new Vector2(Coords.x - 1, Coords.y)));
@@ -71,4 +78,25 @@ public class Character : Moveable {
 			}
 		}
 	}
+
+	void Move() 
+	{
+		Tile moveTo = InputManager.GetTileClicked();
+		if (moveTo != null && neighbors.Contains(moveTo)) {
+			if (UseActionPoints(1)) {
+				SetPosition(moveTo.Coords);
+				m_move = false;
+			}
+		}
+	}
+
+	public bool UseActionPoints(int points)
+	{
+		if (m_actionsPoints - points < 0) return false; //points not available;
+		m_actionsPoints -= points;
+		if (m_actionsPoints == 0) Depleted = true;
+		return true;
+	}
+
+
 }
