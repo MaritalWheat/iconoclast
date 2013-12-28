@@ -85,6 +85,7 @@ public class Character : Moveable {
 		if (moveTo != null && neighbors.Contains(moveTo)) {
 			if (UseActionPoints(1)) {
 				SetPosition(moveTo.Coords);
+				m_move = false;
 			}
 		}
 	}
