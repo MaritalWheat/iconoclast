@@ -8,6 +8,7 @@ public class Character : Moveable {
 	List<Tile> neighbors;
 
 	private bool m_move = false;
+	private bool m_attack = false;
 	private bool m_two = false;
 	private int m_actionsPoints;
 	private const int MAX_APS = 2;
@@ -46,6 +47,11 @@ public class Character : Moveable {
 		if (m_move) {
 			Move ();
 		}
+
+		if (m_attack) {
+			Attack();
+		}
+
 	}
 
 	void OnGUI() {
@@ -53,6 +59,13 @@ public class Character : Moveable {
 			GUI.Box(new Rect(0, 0, 200, 200), "");
 			GUILayout.BeginArea(new Rect(0, 0, 200, 200));
 			m_move = GUI.Toggle(new Rect(0, 0, 200, 50), m_move,  "Move");
+			m_attack = GUI.Toggle(new Rect(0, 50, 200, 50), m_attack,  "Attack");
+			if (m_move) {
+				if (m_attack) {
+					Debug.LogError("Can't attack and move");
+					m_attack = false;
+				}
+			}
 			GUI.Box(new Rect(0, 75, 200, 50), "Actions Points: " + m_actionsPoints);
 			GUILayout.EndArea();
 		}
@@ -60,7 +73,7 @@ public class Character : Moveable {
 
 	void HighlightAdjacentTiles() 
 	{
-		if (!m_move) return;
+		if (!m_move  && !m_attack) return;
 		if (Depleted) return;
 
 		neighbors = new List<Tile>();
@@ -90,6 +103,16 @@ public class Character : Moveable {
 			}
 		}
 	}
+
+	void Attack()
+	{
+		Enemy toAttack = InputManager.GetEnemyClicked();
+		if (toAttack != null) {
+			toAttack.SetPosition(new Vector2(0,0));
+		}
+	}
+
+
 
 	public void ResetActionPoints() 
 	{
