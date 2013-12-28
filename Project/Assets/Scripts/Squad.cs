@@ -51,7 +51,7 @@ public class Squad : MonoBehaviour {
 		}
 		m_addedCharacterThisTurn = true;
 		GameObject characterToAdd = m_characters [m_numCharactersInPlay];
-		characterToAdd.GetComponent<Character>().SetPosition(new Vector2(0,0));
+		characterToAdd.GetComponent<Character>().SetPosition(PlayField.GetRandomDoorTile());
 		characterToAdd.GetComponent<Character>().InPlay = true;
 		m_numCharactersInPlay++;
 	}

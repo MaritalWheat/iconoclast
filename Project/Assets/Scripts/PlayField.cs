@@ -6,6 +6,7 @@ public class PlayField : MonoBehaviour {
 
 	public static PlayField m_instance;
     public GameObject m_defaultTile;
+	public GameObject m_doorTile;
 	public GameObject m_selector;
 	public GameObject m_selectedTile;
     public GameObject m_spawner;
@@ -20,12 +21,18 @@ public class PlayField : MonoBehaviour {
 	public LayerMask m_characterMask;
 	public Dictionary<Vector2, GameObject> m_playField;
 	public Dictionary<GameObject, Vector2> m_objCoords;
+	public List<Vector2> m_doorA;
 
 	void Start () 
     {
 		if (m_instance == null) {
 			m_instance = this;
 		}
+
+		for (int i = 0; i < 4; i++) {
+			m_doorA.Add(new Vector2(6+i,0));
+		}
+
 
         Vector3 pos = m_spawner.transform.position;
 
@@ -34,17 +41,23 @@ public class PlayField : MonoBehaviour {
 		m_playField = new Dictionary<Vector2, GameObject>();
 		m_objCoords = new Dictionary<GameObject, Vector2>();
 
+		Vector2 newCoord;
         for (int i = 0; i < 16; i++) {
             pos.z += m_defaultTile.renderer.bounds.size.z;
             for (int j = 0; j < 16; j++) {
+				newCoord = new Vector2(j, i);
                 pos.x += m_defaultTile.renderer.bounds.size.x;
-                
-                GameObject tile = (GameObject)GameObject.Instantiate(m_defaultTile);
+				GameObject tile;
+				if (IsDoorTile(newCoord)) {
+                	tile = (GameObject)GameObject.Instantiate(m_doorTile);
+				} else {
+					tile = (GameObject)GameObject.Instantiate(m_defaultTile);
+				}
                 tile.transform.position = pos;
 				tile.transform.parent = tiles.transform;
-				m_playField.Add(new Vector2(i, j), tile);
-				m_objCoords.Add (tile, new Vector2(i, j));
-				tile.GetComponent<Tile>().Coords = new Vector2(i, j);
+				m_playField.Add(newCoord, tile);
+				m_objCoords.Add (tile, newCoord);
+				tile.GetComponent<Tile>().Coords = newCoord;
             }
             pos.x -= m_defaultTile.renderer.bounds.size.x * 16;
         }
@@ -78,6 +91,19 @@ public class PlayField : MonoBehaviour {
 		} else {
 			return null;
 		}
+	}
+
+	public static Vector2 GetRandomDoorTile() {
+		return m_instance.m_doorA[Random.Range(0,3)];
+	}
+
+	/// <summary>
+	/// Determines if is door tile from the specified coords.
+	/// </summary>
+	/// <returns><c>true</c> if is door tile; otherwise, <c>false</c>.</returns>
+	/// <param name="coords">Coords.</param>
+	public static bool IsDoorTile(Vector2 coords) {
+		return m_instance.m_doorA.Contains(coords);
 	}
 }
 
