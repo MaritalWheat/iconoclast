@@ -23,6 +23,13 @@ public class PlayField : MonoBehaviour {
 	public Dictionary<GameObject, Vector2> m_objCoords;
 	public List<Vector2> m_doorA;
 
+	public GameObject m_highlightObject;
+	private List<GameObject> m_highlightTiles;
+	
+	public static List<GameObject> HighlightObjects {
+		get { return m_instance.m_highlightTiles; }
+	}
+
 	void Start () 
     {
 		if (m_instance == null) {
@@ -31,6 +38,12 @@ public class PlayField : MonoBehaviour {
 
 		for (int i = 0; i < 4; i++) {
 			m_doorA.Add(new Vector2(6+i,0));
+		}
+
+		m_highlightTiles = new List<GameObject>();
+		for (int i = 0; i < 10; i++) {
+			m_highlightTiles.Add((GameObject)GameObject.Instantiate(m_highlightObject));
+			m_highlightTiles[i].SetActive(false);
 		}
 
 

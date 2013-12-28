@@ -1,12 +1,16 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Squad.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Character.cs">
     <Files>
-      <File FileName="Assets/Scripts/Character.cs" Line="13" Column="7" />
-      <File FileName="Assets/Scripts/GameManager.cs" Line="30" Column="6" />
-      <File FileName="Assets/Scripts/Squad.cs" Line="58" Column="2" />
-      <File FileName="Assets/Scripts/PlayField.cs" Line="75" Column="1" />
-      <File FileName="Assets/Scripts/InputManager.cs" Line="58" Column="4" />
+      <File FileName="Assets/Scripts/Character.cs" Line="105" Column="3" />
+      <File FileName="Assets/Scripts/InputManager.cs" Line="55" Column="20" />
+      <File FileName="Assets/Scripts/PlayField.cs" Line="81" Column="15" />
+      <File FileName="Assets/Scripts/Tile.cs" Line="11" Column="2" />
+      <File FileName="Assets/Scripts/Moveable.cs" Line="14" Column="18" />
+      <File FileName="Assets/Scripts/Selector.cs" Line="12" Column="38" />
+      <File FileName="Assets/Scripts/SelectedTile.cs" Line="15" Column="2" />
+      <File FileName="Assets/Scripts/GameManager.cs" Line="21" Column="18" />
+      <File FileName="Assets/Scripts/Squad.cs" Line="39" Column="28" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
