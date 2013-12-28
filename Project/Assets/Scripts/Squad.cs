@@ -41,6 +41,14 @@ public class Squad : MonoBehaviour {
 		m_addedCharacterThisTurn = false;
 	}
 
+	public void NextTurn() {
+		m_turnComplete = false;
+		m_addedCharacterThisTurn = false;
+		for (int i = 0; i < m_characters.Count; i++) {
+			m_characters[i].GetComponent<Character>().ResetActionPoints();
+		}
+	}
+
 	public bool IsTurnComplete() {
 		return m_turnComplete;
 	}

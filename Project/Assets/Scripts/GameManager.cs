@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour {
 			m_totalTurns ++;
 			Debug.Log("This is where we process what happened for turn number " + m_totalTurns);
 			//Start the next round of turns
-			m_squadA.StartTurn();
+			m_squadA.NextTurn();
 		}
 	}
 }
