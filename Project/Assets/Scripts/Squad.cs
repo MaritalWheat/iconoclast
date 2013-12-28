@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -10,17 +10,17 @@ public class Squad : MonoBehaviour {
 
 	bool turnComplete = true;
 
-	// Use this for initialization
+	Character m_selectedCharacter;
+	
 	void Start () {
 		characters = new List<GameObject>();
 		for (int i = 0; i < SQUAD_SIZE; i++) {
-			characters.Add((GameObject)GameObject.Instantiate(GameManager.singleton.characterPrefab));
+			characters.Add((GameObject)GameObject.Instantiate(GameManager.m_instance.m_characterPrefab));
 		}
 	}
-	
-	// Update is called once per frame
+
 	void Update () {
-	
+		HandleSelectedCharacter();
 	}
 
 	void OnGUI () {
@@ -39,4 +39,15 @@ public class Squad : MonoBehaviour {
 		return turnComplete;
 	}
 
+	void HandleSelectedCharacter() 
+	{
+		Character selected = InputManager.GetCharacterClicked();
+		if (selected != null) {
+			if (m_selectedCharacter != null) {
+				m_selectedCharacter.Selected = false; //unselect previously selected
+			}
+			m_selectedCharacter = selected;
+			m_selectedCharacter.Selected = true;
+		}
+	}
 }

@@ -3,32 +3,31 @@ using System.Collections;
 
 public class GameManager : MonoBehaviour {
 
-	public static GameManager singleton;
+	public static GameManager m_instance;
 
-	public GameObject characterPrefab;
+	public GameObject m_characterPrefab;
 
-	Squad squadA, squadB;
-	int totalTurns = 0;
-	// Use this for initialization
+	Squad m_squadA, m_squadB;
+	int m_totalTurns = 0;
+
 	void Start () {
-		if (singleton == null) {
-			singleton = this;
+		if (m_instance == null) {
+			m_instance = this;
 		}
-		squadA = this.gameObject.AddComponent<Squad> ();
-		squadA.startTurn ();
+		m_squadA = this.gameObject.AddComponent<Squad> ();
+		m_squadA.startTurn ();
 	}
-	
-	// Update is called once per frame
+
 	void Update () {
 		//Wait for players to finish turns
-		if(!squadA.isTurnComplete()) {
+		if(!m_squadA.isTurnComplete()) {
 			//waiting
 		} else {
 			//Process Turns
-			totalTurns ++;
-			Debug.Log("This is where we process what happened for turn number " + totalTurns);
+			m_totalTurns ++;
+			Debug.Log("This is where we process what happened for turn number " + m_totalTurns);
 			//Start the next round of turns
-			squadA.startTurn();
+			m_squadA.startTurn();
 		}
 	}
 }
