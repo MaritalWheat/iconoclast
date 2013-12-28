@@ -44,7 +44,7 @@ public class Squad : MonoBehaviour {
 	public void NextTurn() {
 		m_turnComplete = false;
 		m_addedCharacterThisTurn = false;
-		m_selectedCharacter = null;
+		ClearSelected();
 		for (int i = 0; i < m_characters.Count; i++) {
 			m_characters[i].GetComponent<Character>().ResetActionPoints();
 		}
@@ -63,6 +63,7 @@ public class Squad : MonoBehaviour {
 		characterToAdd.GetComponent<Character>().SetPosition(PlayField.GetRandomDoorTile());
 		characterToAdd.GetComponent<Character>().InPlay = true;
 		m_numCharactersInPlay++;
+		ClearSelected();
 	}
 
 	void HandleSelectedCharacter() 
@@ -75,6 +76,14 @@ public class Squad : MonoBehaviour {
 
 			m_selectedCharacter = selected;
 			m_selectedCharacter.Selected = true;
+		}
+	}
+
+	void ClearSelected()
+	{
+		if (m_selectedCharacter != null) {
+			m_selectedCharacter.Selected = false;
+			m_selectedCharacter = null;
 		}
 	}
 }
