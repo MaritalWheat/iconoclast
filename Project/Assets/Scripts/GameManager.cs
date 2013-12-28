@@ -15,20 +15,20 @@ public class GameManager : MonoBehaviour {
 			singleton = this;
 		}
 		squadA = this.gameObject.AddComponent<Squad> ();
-		squadA.startTurn ();
+		squadA.StartTurn ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		//Wait for players to finish turns
-		if(!squadA.isTurnComplete()) {
+		if(!squadA.IsTurnComplete()) {
 			//waiting
 		} else {
 			//Process Turns
 			totalTurns ++;
 			Debug.Log("This is where we process what happened for turn number " + totalTurns);
 			//Start the next round of turns
-			squadA.startTurn();
+			squadA.StartTurn();
 		}
 	}
 }
