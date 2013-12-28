@@ -108,7 +108,9 @@ public class Character : Moveable {
 	{
 		Enemy toAttack = InputManager.GetEnemyClicked();
 		if (toAttack != null) {
-			toAttack.SetPosition(new Vector2(0,0));
+			if (UseActionPoints(1) {
+				toAttack.SetPosition(new Vector2(0,0));
+			}
 		}
 	}
 
