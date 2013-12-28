@@ -1,11 +1,10 @@
 using UnityEngine;
 using System.Collections;
 
-public class Character : MonoBehaviour {
+public class Character : Moveable {
 
 	public GameObject m_tile;
-
-	private Vector2 m_pos;
+	
 	private bool m_move = false;
 	private bool m_two = false;
 
@@ -14,22 +13,12 @@ public class Character : MonoBehaviour {
 		get;
 	}
 
-
-	void Start() {
-		//GameObject tile = (GameObject)GameObject.Instantiate(m_tile);
-	}
-
-	void Update() {
-		/*Vector3 pos = PlayField.GetWorldPosition(new Vector2(0.0f, 0.0f));
-		pos.y += 0.25f;
-		transform.position = pos;*/
-
+	void Update() 
+	{
 		if (m_move) {
-			GameObject moveTo = InputManager.GetTileClicked();
+			Tile moveTo = InputManager.GetTileClicked();
 			if (moveTo != null) {
-				Vector3 pos = moveTo.transform.position;
-				pos.y += 0.25f;
-				transform.position = pos;
+				SetPosition(moveTo.Coords);
 			}
 		}
 	}
@@ -43,5 +32,4 @@ public class Character : MonoBehaviour {
 			GUILayout.EndArea();
 		}
 	}
-	
 }

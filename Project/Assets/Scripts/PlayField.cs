@@ -19,6 +19,7 @@ public class PlayField : MonoBehaviour {
 	private Color m_color = Color.white;
 	public LayerMask m_characterMask;
 	public Dictionary<Vector2, GameObject> m_playField;
+	public Dictionary<GameObject, Vector2> m_objCoords;
 
 	void Start () 
     {
@@ -31,6 +32,8 @@ public class PlayField : MonoBehaviour {
 		GameObject tiles = new GameObject ("Tiles");
 
 		m_playField = new Dictionary<Vector2, GameObject>();
+		m_objCoords = new Dictionary<GameObject, Vector2>();
+
         for (int i = 0; i < 16; i++) {
             pos.z += m_defaultTile.renderer.bounds.size.z;
             for (int j = 0; j < 16; j++) {
@@ -40,40 +43,20 @@ public class PlayField : MonoBehaviour {
                 tile.transform.position = pos;
 				tile.transform.parent = tiles.transform;
 				m_playField.Add(new Vector2(i, j), tile);
+				m_objCoords.Add (tile, new Vector2(i, j));
+				tile.GetComponent<Tile>().Coords = new Vector2(i, j);
             }
             pos.x -= m_defaultTile.renderer.bounds.size.x * 16;
         }
 
 		m_hoverMarker = (GameObject)GameObject.Instantiate(m_selector);
 		m_selectedTile = (GameObject)GameObject.Instantiate(m_selectedTile);
-
-		foreach (Vector2 key in m_playField.Keys) {
-//			Debug.Log("Key: " + key + ", Value: " + m_instance.m_playField[key]);
-
-		}
 	}
 
     void Update()
     {
 	    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        
-        if (Physics.Raycast(ray, out hit, 10000)) {
-            //Debug.Log("Hit: " + hit.transform.gameObject.ToString());
-			GameObject hitObj = hit.transform.gameObject;
-			if (Input.GetMouseButtonDown(0)) {
-				m_selected = hitObj;
-				Vector3 tilePos = m_selected.transform.position;
-				tilePos.y += 0.1f;
-				m_selectedTile.transform.position = tilePos;
-			}
-			if (hitObj != m_hovered) {
-				m_hovered = hitObj;
-				Vector3 tilePos = m_hovered.transform.position;
-				tilePos.y += 0.1f;
-				m_hoverMarker.transform.position = tilePos;
-			}
-        }
 
 		if (Input.GetMouseButtonDown(0)) {
 			if (Physics.Raycast(ray, out hit, 10000, m_characterMask)) {
@@ -102,4 +85,14 @@ public class PlayField : MonoBehaviour {
 			return Vector3.zero;
 		}
 	}
+
+	public static Vector2 GetObjectCoordinates(GameObject gameObject) 
+	{
+		if (m_instance.m_objCoords.ContainsKey(gameObject)) {
+			return m_instance.m_objCoords[gameObject];
+		} else {
+			return Vector2.zero;
+		}
+	}	
 }
+
