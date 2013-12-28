@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -12,17 +12,17 @@ public class Squad : MonoBehaviour {
 	bool m_addedCharacterThisTurn;
 	int m_numCharactersInPlay = 0;
 
-	// Use this for initialization
+	Character m_selectedCharacter;
+	
 	void Start () {
 		m_characters = new List<GameObject>();
 		for (int i = 0; i < SQUAD_SIZE; i++) {
-			m_characters.Add((GameObject)GameObject.Instantiate(GameManager.singleton.characterPrefab));
+			m_characters.Add((GameObject)GameObject.Instantiate(GameManager.m_instance.m_characterPrefab));
 		}
 	}
-	
-	// Update is called once per frame
+
 	void Update () {
-	
+		HandleSelectedCharacter();
 	}
 
 	void OnGUI () {
@@ -50,8 +50,22 @@ public class Squad : MonoBehaviour {
 			return;
 		}
 		m_addedCharacterThisTurn = true;
-		m_characters[m_numCharactersInPlay].GetComponent<Character>().SetPosition(new Vector2(0,0));
+		GameObject characterToAdd = m_characters [m_numCharactersInPlay];
+		characterToAdd.GetComponent<Character>().SetPosition(new Vector2(0,0));
+		characterToAdd.GetComponent<Character>().InPlay = true;
 		m_numCharactersInPlay++;
 	}
 
+	void HandleSelectedCharacter() 
+	{
+		Character selected = InputManager.GetCharacterClicked();
+		if (selected != null && selected.InPlay) {
+			if (m_selectedCharacter != null) {
+				m_selectedCharacter.Selected = false; //unselect previously selected
+			}
+
+			m_selectedCharacter = selected;
+			m_selectedCharacter.Selected = true;
+		}
+	}
 }

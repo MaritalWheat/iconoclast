@@ -52,31 +52,7 @@ public class PlayField : MonoBehaviour {
 		m_hoverMarker = (GameObject)GameObject.Instantiate(m_selector);
 		m_selectedTile = (GameObject)GameObject.Instantiate(m_selectedTile);
 	}
-
-    void Update()
-    {
-	    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-
-		if (Input.GetMouseButtonDown(0)) {
-			if (Physics.Raycast(ray, out hit, 10000, m_characterMask)) {
-				Debug.Log("Hit: " + hit.transform.gameObject.ToString());
-				if (hit.transform.gameObject.GetComponent<Character>() != null) {
-					if (m_selectedCharacter != null) {
-						m_selectedCharacter.GetComponent<Character>().Selected = false; //unselect previously selected
-					}
-					m_selectedCharacter = hit.transform.gameObject;
-				}
-			} else {
-				Debug.Log("Nothing hit on click");
-			}
-		} 
-
-		if (m_selectedCharacter != null) {
-			m_selectedCharacter.GetComponent<Character>().Selected = true;
-		}
-	}
-
+	
 	public static Vector3 GetWorldPosition(Vector2 coords) 
 	{
 		if (m_instance.m_playField.ContainsKey(coords)) {

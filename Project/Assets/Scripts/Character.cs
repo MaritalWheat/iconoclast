@@ -8,6 +8,11 @@ public class Character : Moveable {
 	private bool m_move = false;
 	private bool m_two = false;
 
+	public bool InPlay {
+		get;
+		set;
+	}
+
 	public bool Selected {
 		set;
 		get;
