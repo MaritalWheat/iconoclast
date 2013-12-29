@@ -9,6 +9,7 @@ public class Character : Moveable {
 
 	private bool m_move = false;
 	private bool m_attack = false;
+	private float m_range = 1.5;
 	private bool m_two = false;
 	private int m_actionsPoints;
 	private const int MAX_APS = 2;
@@ -108,7 +109,7 @@ public class Character : Moveable {
 	{
 		Enemy toAttack = InputManager.GetEnemyClicked();
 		if (toAttack != null) {
-			if (UseActionPoints(1) {
+			if (UseActionPoints(1)) {
 				toAttack.SetPosition(new Vector2(0,0));
 			}
 		}
@@ -128,5 +129,10 @@ public class Character : Moveable {
 		m_actionsPoints -= points;
 		if (m_actionsPoints == 0) Depleted = true;
 		return true;
+	}
+
+	public float GetRange() 
+	{
+		return m_range;
 	}
 }
