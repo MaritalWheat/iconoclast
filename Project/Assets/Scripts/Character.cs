@@ -9,10 +9,17 @@ public class Character : Moveable {
 
 	private bool m_move = false;
 	private bool m_attack = false;
-	private float m_range = 1.5;
 	private bool m_two = false;
 	private int m_actionsPoints;
 	private const int MAX_APS = 2;
+	private const int NUM_SKILLS = 4;
+
+	//Attributes
+	private int m_life = 100;
+	private int m_defense = 10;
+	private Speed m_speed = Speed.normal;
+	private float m_range = 1.5f;
+	private int m_power = 10;
 
 	public bool InPlay {
 		get;
@@ -109,14 +116,15 @@ public class Character : Moveable {
 	{
 		Enemy toAttack = InputManager.GetEnemyClicked();
 		if (toAttack != null) {
-			if (UseActionPoints(1)) {
-				toAttack.SetPosition(new Vector2(0,0));
+			Debug.Log((toAttack.Coords - this.Coords).magnitude);
+			if (Mathf.Abs( (toAttack.Coords - this.Coords).magnitude) < m_range) {
+				if (UseActionPoints(1)) {
+					toAttack.SetPosition(new Vector2(0,0));
+				}
 			}
 		}
 	}
-
-
-
+	
 	public void ResetActionPoints() 
 	{
 		m_actionsPoints = MAX_APS;
@@ -135,4 +143,21 @@ public class Character : Moveable {
 	{
 		return m_range;
 	}
+
+	//Attribute getters and setters
+	public int GetPower() 
+	{
+		return m_power;
+	}
+
+	public void SetPower(int newPower)
+	{
+		m_power = newPower;
+	}
+}
+
+public enum Speed {
+	slow,
+	normal,
+	fast
 }
