@@ -18,6 +18,26 @@ public class Character : Moveable {
 		set;
 	}
 
+    public bool Moving
+    {
+        get { 
+            return m_move;
+        }
+
+        set
+        {
+            if (value)
+            {
+                HighlightAdjacentTiles();
+            }
+            else
+            {
+                ClearHighlightedTiles();
+            }
+            m_move = value;
+        }
+    }
+
 	public bool Selected {
 		set;
 		get;
@@ -36,13 +56,7 @@ public class Character : Moveable {
 
 	void Update() 
 	{
-		for (int i = 0; i < neighbors.Count; i++) {
-			if (neighbors[i] != null) {
-				PlayField.HighlightObjects[i].SetActive(false);
-			}
-		}
-
-		HighlightAdjacentTiles();
+		//HighlightAdjacentTiles();
 
 		if (m_move) {
 			Move ();
@@ -58,9 +72,9 @@ public class Character : Moveable {
 		if (Selected) {
 			GUI.Box(new Rect(0, 0, 200, 200), "");
 			GUILayout.BeginArea(new Rect(0, 0, 200, 200));
-			m_move = GUI.Toggle(new Rect(0, 0, 200, 50), m_move,  "Move");
+			Moving = GUI.Toggle(new Rect(0, 0, 200, 50), Moving,  "Move");
 			m_attack = GUI.Toggle(new Rect(0, 50, 200, 50), m_attack,  "Attack");
-			if (m_move) {
+			if (Moving) {
 				if (m_attack) {
 					Debug.LogError("Can't attack and move");
 					m_attack = false;
@@ -71,9 +85,21 @@ public class Character : Moveable {
 		}
 	}
 
+    void ClearHighlightedTiles()
+    {
+        for (int i = 0; i < neighbors.Count; i++)
+        {
+            if (neighbors[i] != null)
+            {
+                PlayField.HighlightObjects[i].SetActive(false);
+            }
+        }
+    }
+
 	void HighlightAdjacentTiles() 
 	{
-		if (!m_move  && !m_attack) return;
+        ClearHighlightedTiles();
+		//if (!m_move  && !m_attack) return;
 		if (Depleted) return;
 
 		neighbors = new List<Tile>();
@@ -85,6 +111,7 @@ public class Character : Moveable {
 		neighbors.Add(PlayField.GetTile(new Vector2(Coords.x - 1, Coords.y + 1)));
 		neighbors.Add(PlayField.GetTile(new Vector2(Coords.x + 1, Coords.y - 1)));
 		neighbors.Add(PlayField.GetTile(new Vector2(Coords.x + 1, Coords.y + 1)));
+
 		for (int i = 0; i < neighbors.Count; i++) {
 			if (neighbors[i] != null) {
 				PlayField.HighlightObjects[i].SetActive(true);
@@ -108,7 +135,7 @@ public class Character : Moveable {
 	{
 		Enemy toAttack = InputManager.GetEnemyClicked();
 		if (toAttack != null) {
-			if (UseActionPoints(1) {
+			if (UseActionPoints(1)) {
 				toAttack.SetPosition(new Vector2(0,0));
 			}
 		}
