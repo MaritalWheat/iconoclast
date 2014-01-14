@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour {
 
 	Squad m_squadA, m_squadB;
 	int m_totalTurns = 0;
+	bool m_turnComplete;
 
 	void Start () {
 		if (m_instance == null) {
@@ -25,20 +26,42 @@ public class GameManager : MonoBehaviour {
 
 		//For now we will create mock enemies, later this will be replaced with network manager code to display actual enemies
 		enemies.Add((GameObject)GameObject.Instantiate(m_enemyPrefab));
-
-		enemies[0].GetComponent<Enemy>().SetPosition(new Vector2(9,3));
+		enemies.Add((GameObject)GameObject.Instantiate(m_enemyPrefab));
+		enemies.Add((GameObject)GameObject.Instantiate(m_enemyPrefab));
+		enemies.Add((GameObject)GameObject.Instantiate(m_enemyPrefab));
+		enemies.Add((GameObject)GameObject.Instantiate(m_enemyPrefab));
 	}
 
 	void Update () {
 		//Wait for players to finish turns
-		if(!m_squadA.IsTurnComplete()) {
+		if(!m_squadA.IsTurnComplete() || m_turnComplete) {
 			//waiting
 		} else {
 			//Process Turns
 			m_totalTurns ++;
-			Debug.Log("This is where we process what happened for turn number " + m_totalTurns);
-			//Start the next round of turns
-			m_squadA.NextTurn();
+			m_turnComplete = true;
+			NetworkManager.m_instance.FinishPlayerTurn();
 		}
 	}
+
+
+	public void StartNextTurn() 
+	{
+		m_turnComplete = false;
+		m_squadA.NextTurn();
+	}
+
+
+	public void MoveEnemy(int enemyNum, Vector2 newCoords) 
+	{
+		Debug.Log (enemyNum + " : " + newCoords);
+		if (enemyNum < enemies.Count) {
+			enemies[enemyNum].GetComponent<Enemy>().SetPosition(newCoords);
+		}
+	}
+
+	public List<Vector2> GetCharacterPositions() {
+		return m_squadA.GetCharacterPositions ();
+	}
+
 }

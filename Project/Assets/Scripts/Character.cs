@@ -13,6 +13,8 @@ public class Character : Moveable {
 	private int m_actionsPoints;
 	private const int MAX_APS = 2;
 	private const int NUM_SKILLS = 4;
+	private Enemy targeted;
+	private int m_attackCost = 1;
 
 	//Attributes
 	private int m_life = 100;
@@ -112,19 +114,29 @@ public class Character : Moveable {
 		}
 	}
 
+	/// <summary>
+	/// This does not acutally do the damage, it just sets which enemy this character will attack once the turn is processed.
+	/// </summary>
 	void Attack()
 	{
 		Enemy toAttack = InputManager.GetEnemyClicked();
 		if (toAttack != null) {
 			Debug.Log((toAttack.Coords - this.Coords).magnitude);
 			if (Mathf.Abs( (toAttack.Coords - this.Coords).magnitude) < m_range) {
-				if (UseActionPoints(1)) {
-					toAttack.SetPosition(new Vector2(0,0));
+				if (UseActionPoints(m_attackCost)) {
+					targeted = toAttack;
 				}
 			}
 		}
 	}
-	
+
+	void UndoAttack() {
+		if(targeted != null) {
+			targeted = null;
+			m_actionsPoints += m_attackCost;
+		}
+	}
+
 	public void ResetActionPoints() 
 	{
 		m_actionsPoints = MAX_APS;

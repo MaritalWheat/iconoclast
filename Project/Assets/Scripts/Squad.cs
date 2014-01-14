@@ -86,4 +86,16 @@ public class Squad : MonoBehaviour {
 			m_selectedCharacter = null;
 		}
 	}
+
+	public List<Vector2> GetCharacterPositions(){
+		List<Vector2> Positions = new List<Vector2> ();
+		foreach (GameObject character in m_characters) {
+			Vector2 coords = character.GetComponent<Character>().Coords;
+			if (coords == null) {
+				coords = new Vector2(-1,-1);
+			}
+			Positions.Add(coords);
+		}
+		return Positions;
+	}
 }
