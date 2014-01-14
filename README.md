@@ -2,7 +2,9 @@ iconoclast
 ==========
 
 TODO/Bugs
+
 -Right now each player submits their character coords relative to their own board. Either the host manager or the srver needs to convert the clients coords to the opposite side of the board
+
 -The Server needs to push the results of the move back out to the Network Manager.
 
 Networking
