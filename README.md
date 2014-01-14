@@ -1,6 +1,8 @@
 iconoclast
 ==========
 
+See NetworkArchitecture.png directly above this file for the Network Diagram
+
 TODO/Bugs
 
 -Right now each player submits their character coords relative to their own board. Either the host manager or the srver needs to convert the clients coords to the opposite side of the board
