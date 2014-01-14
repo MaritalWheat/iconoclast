@@ -26,10 +26,11 @@ public class Server : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Debug.Log ("CLient ready = " + !m_waitingForClient);
-		Debug.Log ("Host ready = " + !m_waitingForHost);
+		//Debug.Log ("CLient ready = " + !m_waitingForClient);
+		//Debug.Log ("Host ready = " + !m_waitingForHost);
 		if (!m_waitingForClient && !m_waitingForHost) {
 			ProcessTurn();
+			Debug.Log("Server did its thing, start next turn");
 			m_waitingForHost = m_waitingForClient = true;
 			NetworkManager.m_instance.StartTurns ();
 		}
@@ -42,7 +43,7 @@ public class Server : MonoBehaviour {
 			if (m_proposedHostCharacterLocations[i].x != -1 && m_proposedHostCharacterLocations[i].y != -1) {
 				if (m_proposedClientCharacterLocations.Contains(m_proposedHostCharacterLocations[i])) {
 					//We have found a conflict, flip the coin and move one back to where it was
-					Debug.Log("Conflict");
+					//Debug.Log("Conflict");
 					if (Random.Range(-1.0f, 1.0f) > 0) {
 						MoveCharacter(false, m_proposedHostCharacterLocations.IndexOf(m_proposedHostCharacterLocations[i]));
 					} else {
@@ -85,7 +86,7 @@ public class Server : MonoBehaviour {
 		} else {
 			proposedLocations = m_proposedClientCharacterLocations;
 		}
-		Debug.Log (characterNum + ":" + proposedLocations.Count);
+		//Debug.Log (characterNum + ":" + proposedLocations.Count);
 		proposedLocations[characterNum] = coords;
 	}
 

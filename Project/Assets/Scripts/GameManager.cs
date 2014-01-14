@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour {
 
 	public void MoveEnemy(int enemyNum, Vector2 newCoords) 
 	{
-		Debug.Log (enemyNum + " : " + newCoords);
+		//Debug.Log (enemyNum + " : " + newCoords);
 		if (enemyNum < enemies.Count) {
 			enemies[enemyNum].GetComponent<Enemy>().SetPosition(newCoords);
 		}
